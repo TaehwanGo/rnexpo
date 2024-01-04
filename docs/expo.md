@@ -21,3 +21,11 @@ npx create-expo-app -t expo-template-blank-typescript
 ```bash
 npx expo prebuild
 ```
+
+## Run
+
+```bash
+npm run start
+```
+
+- cmd + m : android - reload
