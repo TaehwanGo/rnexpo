@@ -1,10 +1,9 @@
-import { StyleSheet, View } from "react-native";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { NavigationContainer } from "@react-navigation/native";
+import * as Font from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import * as Font from "expo-font";
 import LoggedOutNav from "./navigators/LoggedOutNav";
-import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
