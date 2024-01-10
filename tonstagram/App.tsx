@@ -43,10 +43,8 @@ export default function App() {
   }
 
   return (
-    <View onLayout={onLayoutRootView}>
-      <NavigationContainer>
-        <LoggedOutNav />
-      </NavigationContainer>
-    </View>
+    <NavigationContainer onReady={onLayoutRootView}>
+      <LoggedOutNav />
+    </NavigationContainer>
   );
 }
