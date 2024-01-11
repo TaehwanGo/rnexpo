@@ -1,26 +1,54 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigators/LoggedOutNav";
+import styled from "styled-components/native";
+import { colors } from "../colors";
 
-export default function Welcome(
-  props: NativeStackScreenProps<RootStackParamList, "Welcome">
-) {
+const Container = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
+`;
+
+const Logo = styled.Image`
+  max-width: 50%;
+  height: 100px;
+`;
+
+const CreateAccount = styled.View`
+  background-color: ${colors.blue};
+  padding: 7px 10px;
+  border-radius: 3px;
+`;
+const CreateAccountText = styled.Text`
+  color: white;
+  font-weight: 600;
+`;
+
+const LoginLink = styled.Text`
+  color: ${colors.blue};
+  font-weight: 600;
+  margin-top: 10px;
+`;
+
+export default function Welcome({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, "Welcome">) {
+  const goToCreateAccount = () => navigation.navigate("CreateAccount");
+  const goToLogIn = () => navigation.navigate("Login");
   return (
-    <View>
-      <Text>Welcome</Text>
-      <TouchableOpacity
-        onPress={() => props.navigation.navigate("CreateAccount")}
-      >
-        <View>
-          <Text>Go to Create Account</Text>
-        </View>
+    <Container>
+      <Logo resizeMode="contain" source={require("../assets/logo.png")} />
+      <TouchableOpacity onPress={goToCreateAccount}>
+        <CreateAccount>
+          <CreateAccountText>Create Account</CreateAccountText>
+        </CreateAccount>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => props.navigation.navigate("Login")}>
-        <View>
-          <Text>Go to Login</Text>
-        </View>
+      <TouchableOpacity onPress={goToLogIn}>
+        <LoginLink>Log in</LoginLink>
       </TouchableOpacity>
-    </View>
+    </Container>
   );
 }
