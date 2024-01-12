@@ -12,6 +12,7 @@ const LoginLink = styled.Text`
   font-weight: 600;
   margin-top: 10px;
   margin-top: 20px;
+  text-align: center;
 `;
 
 export default function Welcome({
