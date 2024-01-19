@@ -5,8 +5,16 @@ import AuthButton from "../components/auth/AuthButton";
 import { AuthTextInput } from "../components/auth/AuthShared";
 import { TextInput } from "react-native";
 
+type CreateAccountForm = {
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  password: string;
+};
+
 export default function CreateAccount() {
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit, setValue } = useForm<CreateAccountForm>();
   const lastNameRef = useRef<TextInput>(null);
   const usernameRef = useRef(null);
   const emailRef = useRef(null);
@@ -15,16 +23,26 @@ export default function CreateAccount() {
     nextOne?.current?.focus();
   };
 
-  const onValid = (data: any) => {
+  const onValid = (data: CreateAccountForm) => {
     console.log(data);
   };
 
   useEffect(() => {
-    register("firstName");
-    register("lastName");
-    register("username");
-    register("email");
-    register("password");
+    register("firstName", {
+      required: true,
+    });
+    register("lastName", {
+      required: true,
+    });
+    register("username", {
+      required: true,
+    });
+    register("email", {
+      required: true,
+    });
+    register("password", {
+      required: true,
+    });
   }, [register]);
   return (
     <AuthLayout>
@@ -78,7 +96,7 @@ export default function CreateAccount() {
       />
       <AuthButton
         text="Create Account"
-        disabled
+        disabled={false}
         onPress={handleSubmit(onValid)}
       />
     </AuthLayout>
