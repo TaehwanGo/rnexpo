@@ -3,21 +3,11 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigators/LoggedOutNav";
 import AuthLayout from "../components/auth/AuthLayout";
 import { AuthTextInput } from "../components/auth/AuthShared";
-import { gql, useMutation } from "@apollo/client";
 import { isLoggedInVar } from "../apollo";
 import { useForm } from "react-hook-form";
 import { TextInput } from "react-native";
 import AuthButton from "../components/auth/AuthButton";
 
-const LOGIN_MUTATION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      ok
-      token
-      error
-    }
-  }
-`;
 type LoginFormData = {
   username: string;
   password: string;
@@ -30,20 +20,14 @@ export default function Login({
   const onCompleted = () => {
     isLoggedInVar(true);
   };
-  const [logInMutation, { loading }] = useMutation(LOGIN_MUTATION, {
-    onCompleted,
-  });
+  // const [logInMutation, { loading }] = useMutation(LOGIN_MUTATION, {
+  //   onCompleted,
+  // });
   const onNext = (nextOne: React.RefObject<TextInput>) => {
     nextOne?.current?.focus();
   };
   const onValid = (data: LoginFormData) => {
-    if (!loading) {
-      logInMutation({
-        variables: {
-          ...data,
-        },
-      });
-    }
+    onCompleted();
   };
   useEffect(() => {
     register("username", {
@@ -75,7 +59,6 @@ export default function Login({
       />
       <AuthButton
         text="Log In"
-        loading={loading}
         disabled={!watch("username") || !watch("password")}
         onPress={handleSubmit(onValid)}
       />
