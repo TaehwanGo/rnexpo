@@ -5,12 +5,23 @@ import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useEffect, useState } from "react";
 import LoggedOutNav from "./navigators/LoggedOutNav";
 import { ApolloProvider, useReactiveVar } from "@apollo/client";
-import client, { isLoggedInVar } from "./apollo";
+import client, { isLoggedInVar, tokenVar } from "./apollo";
 import LoggedInNav from "./navigators/LoggedInNav";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const isLoggedIn = useReactiveVar(isLoggedInVar);
+  const [isNavReady, setIsNavReady] = useState(false);
+  const [isReady, setIsReady] = useState(false);
+  const preload = async () => {
+    const token = await AsyncStorage.getItem("token");
+    if (token) {
+      isLoggedInVar(true);
+      tokenVar(token);
+    }
+    setIsReady(true);
+  };
   useEffect(() => {
     async function prepare() {
       try {
@@ -41,13 +52,23 @@ export default function App() {
     }
   }, [appIsReady]);
 
+  useEffect(() => {
+    preload();
+  }, []);
+
+  useEffect(() => {
+    if (isReady && isNavReady) {
+      onLayoutRootView();
+    }
+  }, [isReady, isNavReady]);
+
   if (!appIsReady) {
     return null;
   }
 
   return (
     <ApolloProvider client={client}>
-      <NavigationContainer onReady={onLayoutRootView}>
+      <NavigationContainer onReady={() => setIsNavReady(true)}>
         {isLoggedIn ? <LoggedInNav /> : <LoggedOutNav />}
       </NavigationContainer>
     </ApolloProvider>
