@@ -4,6 +4,8 @@ import AuthLayout from "../components/auth/AuthLayout";
 import AuthButton from "../components/auth/AuthButton";
 import { AuthTextInput } from "../components/auth/AuthShared";
 import { TextInput } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { RootStackParamList } from "../navigators/LoggedOutNav";
 
 type CreateAccountForm = {
   firstName: string;
@@ -13,18 +15,30 @@ type CreateAccountForm = {
   password: string;
 };
 
-export default function CreateAccount() {
-  const { register, handleSubmit, setValue } = useForm<CreateAccountForm>();
+export default function CreateAccount({
+  navigation,
+}: NativeStackScreenProps<RootStackParamList, "CreateAccount">) {
+  const { register, handleSubmit, setValue, getValues } =
+    useForm<CreateAccountForm>();
   const lastNameRef = useRef<TextInput>(null);
   const usernameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+
+  const onCompleted = (data: CreateAccountForm) => {
+    const { username, password } = getValues();
+    navigation.navigate("Login", {
+      username,
+      password,
+    });
+  };
+
   const onNext = (nextOne: React.RefObject<TextInput>) => {
     nextOne?.current?.focus();
   };
-
   const onValid = (data: CreateAccountForm) => {
     console.log(data);
+    onCompleted(data);
   };
 
   useEffect(() => {
@@ -50,7 +64,6 @@ export default function CreateAccount() {
         placeholder="First Name"
         placeholderTextColor="gray"
         returnKeyType="next"
-        style={{ backgroundColor: "white", width: "100%" }}
         onSubmitEditing={() => onNext(lastNameRef)}
         onChangeText={(text) => setValue("firstName", text)}
       />
@@ -59,7 +72,6 @@ export default function CreateAccount() {
         placeholder="Last Name"
         placeholderTextColor="gray"
         returnKeyType="next"
-        style={{ backgroundColor: "white", width: "100%" }}
         onSubmitEditing={() => onNext(usernameRef)}
         onChangeText={(text) => setValue("lastName", text)}
       />
@@ -69,7 +81,6 @@ export default function CreateAccount() {
         autoCapitalize="none"
         placeholderTextColor="gray"
         returnKeyType="next"
-        style={{ backgroundColor: "white", width: "100%" }}
         onSubmitEditing={() => onNext(emailRef)}
         onChangeText={(text) => setValue("username", text)}
       />
@@ -80,7 +91,6 @@ export default function CreateAccount() {
         placeholderTextColor="gray"
         keyboardType="email-address"
         returnKeyType="next"
-        style={{ backgroundColor: "white", width: "100%" }}
         onSubmitEditing={() => onNext(passwordRef)}
         onChangeText={(text) => setValue("email", text)}
       />
@@ -90,7 +100,6 @@ export default function CreateAccount() {
         placeholderTextColor="gray"
         secureTextEntry
         returnKeyType="done"
-        style={{ backgroundColor: "white", width: "100%" }}
         onChangeText={(text) => setValue("password", text)}
         onSubmitEditing={handleSubmit(onValid)}
       />

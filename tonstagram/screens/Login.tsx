@@ -14,8 +14,15 @@ type LoginFormData = {
 };
 export default function Login({
   navigation,
+  route,
 }: NativeStackScreenProps<RootStackParamList, "Login">) {
-  const { register, handleSubmit, setValue, watch } = useForm<LoginFormData>();
+  console.log("route", route);
+  const { register, handleSubmit, setValue, watch } = useForm<LoginFormData>({
+    defaultValues: {
+      username: route?.params?.username,
+      password: route?.params?.password,
+    },
+  });
   const passwordRef = useRef<TextInput>(null);
   const onCompleted = () => {
     isLoggedInVar(true);
@@ -41,6 +48,7 @@ export default function Login({
     <AuthLayout>
       <AuthTextInput
         placeholder="Username"
+        value={watch("username")}
         returnKeyType="next"
         autoCapitalize="none"
         placeholderTextColor="rgba(255, 255, 255, 0.6)"
@@ -50,6 +58,7 @@ export default function Login({
       <AuthTextInput
         ref={passwordRef}
         placeholder="Password"
+        value={watch("password")}
         secureTextEntry
         returnKeyType="done"
         lastOne

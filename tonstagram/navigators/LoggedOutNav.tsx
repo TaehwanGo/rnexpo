@@ -6,7 +6,10 @@ import CreateAccount from "../screens/CreateAccount";
 
 export type RootStackParamList = {
   Welcome: undefined;
-  Login: undefined;
+  Login?: {
+    username?: string;
+    password?: string;
+  };
   CreateAccount: undefined;
 };
 

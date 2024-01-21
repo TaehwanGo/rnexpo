@@ -6,4 +6,5 @@ export const AuthTextInput = styled(TextInput)<{ lastOne?: boolean }>`
   padding: 15px 7px;
   border-radius: 4px;
   margin-bottom: ${(props) => (props.lastOne ? "15" : 8)}px;
+  color: white;
 `;
