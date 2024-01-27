@@ -13,6 +13,22 @@ export type RootStackParamList = {
   CreateAccount: undefined;
 };
 
+export type LoggedInParamList = {
+  Feed: undefined;
+  Search: undefined;
+  Notifications: undefined;
+  Me: undefined;
+  Profile: undefined;
+  Photo: undefined;
+};
+
+export type RootTabParamList = {
+  Feed: undefined;
+  Search: undefined;
+  Photo: undefined;
+  Profile: undefined;
+};
+
 const Stack = createStackNavigator<RootStackParamList>();
 
 export default function LoggedOutNav() {

@@ -11,7 +11,7 @@ export default function Profile() {
         justifyContent: "center",
       }}
     >
-      <Text style={{ color: "white" }}>Profile</Text>
+      <Text style={{ color: "white" }}>Someones Profile</Text>
     </View>
   );
 }
